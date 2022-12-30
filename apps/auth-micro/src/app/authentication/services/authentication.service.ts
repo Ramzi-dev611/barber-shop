@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import { Injectable, NotAcceptableException, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { UserService } from '../../user/services/user.service';
 import { LoginDto, AuthenticationResponseDto, TokenPayloadDto, RegisterDto } from '@barber-shop/data-transfer-objects'
@@ -13,6 +13,9 @@ export class AuthenticationService {
   ) {}
 
   public async register(payload: RegisterDto): Promise<AuthenticationResponseDto> {
+    if(payload.password !== payload.repeatedPassword){
+      throw new NotAcceptableException('The passwords do not match');
+    }
     const userByEmail = await this.userRepo.getUserByemail(payload.email);
     const userByUsername = await this.userRepo.getUserByUsername(payload.username);
     if(userByEmail) {
