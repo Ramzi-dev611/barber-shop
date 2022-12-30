@@ -11,32 +11,32 @@ export class UserEntity {
       unique: true,
       nullable: false
   })
-  username: string;
+  username?: string;
   @Column({
       name: 'email',
       type: String,
       unique: true,
       nullable: false
   })
-  email: string;
+  email?: string;
   @Column({
       name: 'firstname',
       type: String,
       nullable: false
   })
-  firstname: string;
+  firstname?: string;
   @Column({
       name: 'lastname',
       type: String,
       nullable: false
   })
-  lastname: string;
+  lastname?: string;
   @Column({
       name: 'password',
       type: String,
       nullable: false
   })
-  password: string;
+  password?: string;
   @Column({
       name: 'role',
       type: 'enum',

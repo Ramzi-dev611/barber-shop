@@ -22,3 +22,13 @@ export class TokenPayloadDto {
   id?: string;
   email?: string;
 }
+
+export class UserDto {
+  id?: string;
+  username?: string;
+  email?: string;
+  password?: string;
+  firstname?: string;
+  lastname?: string;
+  role?: string;
+}

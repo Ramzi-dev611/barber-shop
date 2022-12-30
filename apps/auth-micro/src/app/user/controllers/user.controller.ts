@@ -1,7 +1,7 @@
 import { Controller } from '@nestjs/common';
 import { UserService } from '../services/user.service';
-import { UserEntity } from '../entities/user.entity';
 import { MessagePattern } from '@nestjs/microservices';
+import { UserDto } from '@barber-shop/data-transfer-objects';
 
 @Controller('user')
 export class UserController {
@@ -9,8 +9,8 @@ export class UserController {
   @MessagePattern({ cmd: 'update' })
   public async updateAccount(
     id: string,
-    user: UserEntity
-  ): Promise<UserEntity> {
+    user: UserDto
+  ): Promise<UserDto> {
     return await this.userRepo.updateUser(id, user);
   }
 
@@ -20,7 +20,7 @@ export class UserController {
   }
 
   @MessagePattern({ cmd: 'get' })
-  public async getUserById(id: string): Promise<UserEntity> {
+  public async getUserById(id: string): Promise<UserDto> {
     return this.userRepo.getUserById(id);
   }
 }
