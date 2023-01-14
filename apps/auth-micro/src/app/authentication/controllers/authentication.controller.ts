@@ -16,9 +16,7 @@ export class AuthenticationController {
   public async  register(
     payload: RegisterDto
   ): Promise<AuthenticationResponseDto> {
-    console.log("hello")
     const response: AuthenticationResponseDto = await this.service.register(payload);
-    console.log("bye")
     return response;
   }
 }

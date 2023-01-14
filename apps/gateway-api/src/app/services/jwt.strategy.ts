@@ -20,19 +20,18 @@ export class JwtStrategy extends PassportStrategy(Strategy) implements OnApplica
     }
 
     async validate(payload: TokenPayloadDto) {
-        let user: UserDto;
-        const pattern = { cmd: 'get'}
-        this.client.send(pattern, {id: payload.id}).subscribe({
-            next: (data: UserDto) => {
-                user = data;
-                if(!user) {
-                    throw new UnauthorizedException('The token provided has an issue, reconnect to the app');
+        return new Promise(resolve => {
+            const pattern = { cmd: 'GET_ACCOUNT' }
+            let user: UserDto; 
+            this.client.send(pattern, {id: payload.id}).subscribe({
+                next: (data: UserDto) => {
+                    user = { ...data };
+                    resolve(user);
+                }, 
+                error: (error) => {
+                    console.log(error);
                 }
-                return user;
-            }, 
-            error: (error) => {
-                console.log(error);
-            }
+            })
         })
     }
 }

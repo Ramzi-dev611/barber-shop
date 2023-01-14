@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { Repository } from 'typeorm';
+import { UserDto } from '@barber-shop/data-transfer-objects';
 
 @Injectable()
 export class UserService {
@@ -27,10 +28,15 @@ export class UserService {
         return await this.repo.save(user);
     }
 
-    public async updateUser(id: string, user: UserEntity): Promise<UserEntity>{
+    public async updateUser(id: string, user: UserDto): Promise<UserEntity>{
+        const {firstname, lastname,email,password,username} = user;
         const newEntity = await this.repo.preload({
-            id,
-            ...user,
+          id,
+          firstname,
+          lastname,
+          email,
+          password,
+          username,
         });
         if (newEntity) {
             this.repo.save(newEntity);

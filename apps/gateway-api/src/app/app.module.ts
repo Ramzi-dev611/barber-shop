@@ -12,6 +12,9 @@ import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { JwtConfigService } from './services/jwt-config.service';
 import { JwtStrategy } from './services/jwt.strategy';
+import { RoleAuthGuard } from './guards/role.guard';
+import { AccountService } from './services/account.service';
+import { AccountController } from './controllers/account.controller';
 
 @Module({
   imports: [
@@ -20,11 +23,11 @@ import { JwtStrategy } from './services/jwt.strategy';
       envFilePath: process.env.PRODUCTION ? '.prod.env' : '.local.env',
     }),
     PassportModule.register({
-      defaultStrategy: 'jwt'
+      defaultStrategy: 'jwt',
     }),
     JwtModule.registerAsync({
       useClass: JwtConfigService,
-      inject: [JwtConfigService]
+      inject: [JwtConfigService],
     }),
     ClientsModule.registerAsync([
       {
@@ -34,13 +37,19 @@ import { JwtStrategy } from './services/jwt.strategy';
       },
     ]),
   ],
-  controllers: [AppController, AuthenticationController],
+  controllers: [
+    AppController,
+    AuthenticationController,
+    AccountController
+  ],
   providers: [
-    AppService, 
-    AuthenticationMicroserviceConfig, 
+    AppService,
+    AuthenticationMicroserviceConfig,
     AuthenticationService,
     JwtStrategy,
     JwtConfigService,
+    RoleAuthGuard,
+    AccountService,
   ],
 })
 export class AppModule {}

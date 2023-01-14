@@ -1,26 +1,32 @@
 import { Controller } from '@nestjs/common';
 import { UserService } from '../services/user.service';
 import { MessagePattern } from '@nestjs/microservices';
-import { UserDto } from '@barber-shop/data-transfer-objects';
+import { FetchCommandPayload, UserDto } from '@barber-shop/data-transfer-objects';
 
+interface UpdatePayload {
+  id: string;
+  payload: UserDto;
+}
 @Controller('user')
 export class UserController {
   constructor(private readonly userRepo: UserService) {}
-  @MessagePattern({ cmd: 'update' })
+  @MessagePattern({ cmd: 'UPDATE_ACCOUNT' })
   public async updateAccount(
-    id: string,
-    user: UserDto
+    body: UpdatePayload
   ): Promise<UserDto> {
-    return await this.userRepo.updateUser(id, user);
+    const { id, payload } = body;
+    return await this.userRepo.updateUser(id, payload);
   }
 
-  @MessagePattern({ cmd: 'delete' })
-  public async deleteUser(id: string) {
+  @MessagePattern({ cmd: 'DELETE_ACCOUNT' })
+  public async deleteUser(payload: FetchCommandPayload) {
+    const { id } = payload; 
     return await this.userRepo.deleteUser(id);
   }
 
-  @MessagePattern({ cmd: 'get' })
-  public async getUserById(id: string): Promise<UserDto> {
+  @MessagePattern({ cmd: 'GET_ACCOUNT' })
+  public async getUserById(payload: FetchCommandPayload): Promise<UserDto> {
+    const { id } = payload;
     return this.userRepo.getUserById(id);
   }
 }

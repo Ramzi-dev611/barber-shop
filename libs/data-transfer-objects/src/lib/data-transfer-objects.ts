@@ -32,3 +32,7 @@ export class UserDto {
   lastname?: string;
   role?: string;
 }
+
+export class FetchCommandPayload {
+  id?: string;
+}
