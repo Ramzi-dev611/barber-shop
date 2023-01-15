@@ -16,7 +16,7 @@ services:
     hostname: posts
     ports:
       - 3002:3002
-    command: npx nx run gateway-api:serve:production
+    command: npx nx run posts-micro:serve:production
     depends_on:
       - auth
   gateway: 
