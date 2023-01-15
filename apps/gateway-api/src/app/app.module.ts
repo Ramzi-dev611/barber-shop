@@ -15,6 +15,9 @@ import { JwtStrategy } from './services/jwt.strategy';
 import { RoleAuthGuard } from './guards/role.guard';
 import { AccountService } from './services/account.service';
 import { AccountController } from './controllers/account.controller';
+import { PostsMicroserviceConfig } from './services/posts-micro-config.service';
+import { PostsService } from './services/posts.service';
+import { PostsController } from './controllers/posts.controller';
 
 @Module({
   imports: [
@@ -35,21 +38,29 @@ import { AccountController } from './controllers/account.controller';
         useClass: AuthenticationMicroserviceConfig,
         inject: [AuthenticationMicroserviceConfig],
       },
+      {
+        name: 'POSTS_MICRO',
+        useClass: PostsMicroserviceConfig,
+        inject: [PostsMicroserviceConfig],
+      },
     ]),
   ],
   controllers: [
     AppController,
     AuthenticationController,
-    AccountController
+    AccountController,
+    PostsController,
   ],
   providers: [
     AppService,
     AuthenticationMicroserviceConfig,
+    PostsMicroserviceConfig,
     AuthenticationService,
     JwtStrategy,
     JwtConfigService,
     RoleAuthGuard,
     AccountService,
+    PostsService,
   ],
 })
 export class AppModule {}

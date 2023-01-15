@@ -42,7 +42,7 @@ export class PostsController {
     return await this.postsService.updatePost(id, post);
   }
 
-  @MessagePattern({ cmd: 'UPDATE_POST' })
+  @MessagePattern({ cmd: 'DELETE_POST' })
   public async deletePost(payload: PostIdPayload) {
     const { id } = payload;
     return await this.postsService.deletePost(id);
