@@ -1,6 +1,6 @@
 export enum HashtagEnum {
-    SPORTS = 'Sports',
-    MUSIC = 'Music',
-    MOVIES = 'Movies',
-    POLITICS = 'Politics'
+    SPORTS = 'sports',
+    MUSIC = 'music',
+    MOVIES = 'movies',
+    POLITICS = 'politics'
 }
