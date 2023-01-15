@@ -3,11 +3,9 @@ import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule } from '@nestjs/config';
-import { UserModule } from './user/user.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigDbService } from './config-db.service';
-import { AuthenticationModule } from './authentication/authentication.module';
-
+import { ConfigDbService } from './configdb.service';
+import { PostsModule } from './posts/posts.module';
 
 @Module({
   imports: [
@@ -16,15 +14,13 @@ import { AuthenticationModule } from './authentication/authentication.module';
       ignoreEnvFile: false,
       envFilePath: process.env.PROD ? '.prod.env' : '.local.env',
     }),
-    UserModule,
     TypeOrmModule.forRootAsync({
       useClass: ConfigDbService,
       inject: [ConfigDbService],
     }),
-    AuthenticationModule,
+    PostsModule
   ],
   controllers: [AppController],
-  providers: [AppService, ConfigDbService],
-  exports: [ConfigDbService],
+  providers: [AppService],
 })
 export class AppModule {}

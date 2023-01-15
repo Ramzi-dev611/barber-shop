@@ -33,6 +33,30 @@ export class UserDto {
   role?: string;
 }
 
+export class PostDto {
+  id?: string;
+  userId?: string;
+  content?: string;
+  hashtag?: string;
+}
+
 export class FetchCommandPayload {
   id?: string;
+}
+
+export class MyPostsPayload {
+  userId?: string
+}
+
+export class PostsByHashtagPayload {
+  hashtag?: string;
+}
+
+export class PostIdPayload {
+  id?: string;
+}
+
+export class UpdatePostDto {
+  id?: string;
+  post?: PostDto;
 }
