@@ -13,7 +13,6 @@ export class PostsService {
 
   public async getAllPosts(): Promise<PostEntity[]> {
     const response = await this.repo.find();
-    console.log(response)
     return response;
   }
 
