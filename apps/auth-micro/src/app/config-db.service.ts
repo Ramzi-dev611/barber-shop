@@ -7,13 +7,15 @@ export class ConfigDbService implements TypeOrmOptionsFactory{
     constructor(private configService: ConfigService) {}
     createTypeOrmOptions(connectionName?: string): TypeOrmModuleOptions | Promise<TypeOrmModuleOptions> {
       return {
-          type: 'postgres',
-          host: this.configService.get<string>('DB_HOST'),
-          port: this.configService.get<number>('DB_PORT'),
-          username: this.configService.get<string>('DB_USER'),
-          password: this.configService.get<string>('DB_PASSWD'),
-          database: this.configService.get<string>('DB_NAME'),
-          autoLoadEntities: true,
-        };
+        type: 'postgres',
+        host: this.configService.get<string>('DB_HOST'),
+        port: this.configService.get<number>('DB_PORT'),
+        username: this.configService.get<string>('DB_USER'),
+        password: this.configService.get<string>('DB_PASSWD'),
+        database: this.configService.get<string>('DB_NAME'),
+        autoLoadEntities: true,
+        synchronize: true,
+        logging: true,
+      };
     }
 }

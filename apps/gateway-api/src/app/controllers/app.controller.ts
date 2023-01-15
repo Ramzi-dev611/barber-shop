@@ -10,4 +10,11 @@ export class AppController {
   getData() {
     return this.appService.getData();
   }
+
+  @Get('/hello') 
+  helloWorldMethod (){
+    return {
+      message: `Application on port ${process.env.PORT} says HI`
+    }
+  }
 }

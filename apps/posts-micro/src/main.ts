@@ -8,6 +8,9 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { MicroserviceOptions } from '@nestjs/microservices';
 
+import * as dotenv from 'dotenv'
+dotenv.config({ path: __dirname+'../.env' })
+
 async function bootstrap() {
   const port = process.env.PORT || 3333;
   const host = process.env.HOST || "0.0.0.0";

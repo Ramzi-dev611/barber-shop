@@ -18,12 +18,11 @@ import { AccountController } from './controllers/account.controller';
 import { PostsMicroserviceConfig } from './services/posts-micro-config.service';
 import { PostsService } from './services/posts.service';
 import { PostsController } from './controllers/posts.controller';
-
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: process.env.PRODUCTION ? '.prod.env' : '.local.env',
+      envFilePath: process.env.PRODUCTION ? '.env' : '.env.local',
     }),
     PassportModule.register({
       defaultStrategy: 'jwt',

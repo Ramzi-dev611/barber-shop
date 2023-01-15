@@ -1,0 +1,44 @@
+version: '3.7'
+
+services:
+  auth: 
+    container_name: auth
+    image: barbershop-auth:latest
+    hostname: auth
+    ports:
+      - 3001:3001
+    command: npx nx run auth-micro:serve:production
+    depends_on:
+      - database
+  posts: 
+    container_name: posts
+    image: barbershop-posts:latest
+    hostname: posts
+    ports:
+      - 3002:3002
+    command: npx nx run gateway-api:serve:production
+    depends_on:
+      - auth
+  gateway: 
+    container_name: gateway
+    image: barbershop-gateway:latest
+    hostname: gateway
+    ports:
+      - 3000:3000
+    command: npx nx run gateway-api:serve:production
+    depends_on:
+      - posts
+  database:
+    image: postgres:14.1-alpine
+    hostname: database
+    environment:
+      - POSTGRES_USER=barbershopuser
+      - POSTGRES_PASSWORD=barbershoppasswd
+      - POSTGRES_DB=barbershopdb
+    ports:
+      - '5432:5432'
+    volumes: 
+      - db:/var/lib/postgresql/data
+volumes:
+  db:
+    driver: local

@@ -14,7 +14,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     ConfigModule.forRoot({
       isGlobal: true,
       ignoreEnvFile: false,
-      envFilePath: process.env.PROD ? '.prod.env' : '.local.env',
+      envFilePath: process.env.PRODUCTION ? '.env.prod' : '.env.local',
     }),
     UserModule,
     TypeOrmModule.forRootAsync({
