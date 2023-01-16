@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: barbershop-gateway
   labels:
-    app: barbershop-gateway
+    app: gateway
 spec:
   strategy: 
     type: shadow
