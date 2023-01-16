@@ -13,7 +13,8 @@
         "outputPath": "dist/apps/posts-micro",
         "main": "apps/posts-micro/src/main.ts",
         "tsConfig": "apps/posts-micro/tsconfig.app.json",
-        "assets": ["apps/posts-micro/src/assets"]
+        "assets": ["apps/posts-micro/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {

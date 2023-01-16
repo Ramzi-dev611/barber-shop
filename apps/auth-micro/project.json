@@ -13,7 +13,8 @@
         "outputPath": "dist/apps/auth-micro",
         "main": "apps/auth-micro/src/main.ts",
         "tsConfig": "apps/auth-micro/tsconfig.app.json",
-        "assets": ["apps/auth-micro/src/assets"]
+        "assets": ["apps/auth-micro/src/assets"],
+        "generatePackageJson": true
       },
       "configurations": {
         "production": {
