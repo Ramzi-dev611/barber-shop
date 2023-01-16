@@ -54,7 +54,7 @@ export class PostsController {
         next: (data: PostDto[]) => {
           this.hashtagCounter
             .labels({
-              label: hashtag,
+              topic: hashtag,
               method: 'GET',
             }).inc();
           this.requestCounter
@@ -81,35 +81,101 @@ export class PostsController {
   @Get('/me')
   @Role('user')
   public getPostsAccount(@GetUser() user: UserDto) {
-    try {
-      console.log();
-    } catch (error) {
-      this.logger.error(error);
-    }
-    return this.postsService.getAccountPosts(user.id);
+    const requestID = uuidv4();
+    const response = this.postsService.getAccountPosts(user.id);
+    return new Promise((resolve) => {
+      response.subscribe({
+        next: (data: PostDto[]) => {
+          this.requestCounter
+            .labels({
+              method: 'GET_ACCOUNT_POSTS',
+              status: '200',
+            })
+            .inc();
+          this.logger.log({
+            request_id: requestID,
+            content: `Number of posts by the the user ${user.id} = ${data.length}`,
+          });
+          resolve(data);
+        }, 
+        error: (error) => {
+          this.logger.error({
+            request_id: requestID,
+            content: error,
+          });
+          return { error: 'Something happened while getting posts' };
+        }
+      })
+    })
   }
 
   @Get('/:id')
   @Role('user')
   public getPostsById(@Param('id') id: string) {
-    try {
-      console.log();
-    } catch (error) {
-      this.logger.error(error);
-    }
-    return this.postsService.getPost(id);
+    const requestID= uuidv4();
+    const response = this.postsService.getPost(id);
+    return new Promise((resolve) => {
+      response.subscribe({
+        next: (data: PostDto) => {
+          this.requestCounter
+            .labels({
+              method: 'GET_POST',
+              status: '200',
+            })
+            .inc();
+          this.logger.log({
+            request_id: requestID,
+            content: `successful query with of the post with the id ${id}`,
+          });
+          resolve(data);
+        },
+        error: (error) => {
+          this.logger.error({
+            request_id: requestID,
+            content: error,
+          });
+          return { error: 'Something happened while getting posts' };
+        },
+      });
+    })
   }
 
   @Post()
   @Role('user')
   public createPost(@GetUser() user: UserDto, @Body() payload: PostDto) {
-    try {
-      console.log();
-    } catch (error) {
-      this.logger.error(error);
-    }
+    const requestID = uuidv4();
     payload.userId = user.id;
-    return this.postsService.createPost(payload);
+    const response = this.postsService.createPost(payload);
+    return new Promise((resolve) => {
+      response.subscribe({
+        next: (data: PostDto) => {
+          this.requestCounter
+            .labels({
+              method: 'SAVE_POST',
+              status: '201',
+            })
+            .inc();
+          this.hashtagCounter
+            .labels({
+              topic: payload.hashtag,
+              method: 'POST',
+            })
+            .inc();
+          this.logger.log({
+            request_id: requestID,
+            content: `successful save of the post with the id ${data.id}`,
+          });
+          resolve(data);
+        },
+        error: (error) => {
+          this.logger.error({
+            request_id: requestID,
+            content: error,
+          });
+          return { error: 'Something happened while saving the post posts' };
+        },
+      });
+    })
   }
 
   @Put('/:id')
@@ -119,15 +185,39 @@ export class PostsController {
     @GetUser() user: UserDto,
     @Body() payload: PostDto
   ) {
-    try {
-      console.log();
-    } catch (error) {
-      this.logger.error(error);
-    }
+    const requestID = uuidv4();
     if (payload.userId !== user.id) {
+      this.logger.error({
+        request_id: requestID,
+        content: 'attempt to change unowned post'
+      })
       throw new UnauthorizedException("Can't change what is not your post");
     }
-    return this.postsService.updatePost(id, payload);
+    const response = this.postsService.updatePost(id, payload);
+    return new Promise(resolve => {
+      response.subscribe({
+        next: (data: PostDto) => {
+          this.requestCounter
+            .labels({
+              method: 'UPDATE_POST',
+              status: '201',
+            })
+            .inc();
+          this.logger.log({
+            request_id: requestID,
+            content: `successful update of the post with the id ${data.id}`,
+          });
+          resolve(data);
+        },
+        error: (error) => {
+          this.logger.error({
+            request_id: requestID,
+            content: error,
+          });
+          return { error: 'Something happened while saving the post posts' };
+        },
+      });
+    })
   }
 
   @Delete('/:id')
