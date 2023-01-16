@@ -18,6 +18,7 @@ import { AccountController } from './controllers/account.controller';
 import { PostsMicroserviceConfig } from './services/posts-micro-config.service';
 import { PostsService } from './services/posts.service';
 import { PostsController } from './controllers/posts.controller';
+import { PrometheusModule, makeCounterProvider } from '@willsoto/nestjs-prometheus';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -43,6 +44,7 @@ import { PostsController } from './controllers/posts.controller';
         inject: [PostsMicroserviceConfig],
       },
     ]),
+    PrometheusModule.register(),
   ],
   controllers: [
     AppController,
@@ -51,6 +53,16 @@ import { PostsController } from './controllers/posts.controller';
     PostsController,
   ],
   providers: [
+    makeCounterProvider({
+      name: 'HTTP_REQUEST_TOTAL',
+      help: 'this is a counter for the total http requests made',
+      labelNames: ['method', 'status'],
+    }),
+    makeCounterProvider({
+      name: 'QUERIES_PER_HASHTAG',
+      help: 'this counts the number of requests that get received for posts by hashtag',
+      labelNames: ['topic', 'method'],
+    }),
     AppService,
     AuthenticationMicroserviceConfig,
     PostsMicroserviceConfig,

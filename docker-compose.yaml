@@ -3,7 +3,7 @@ version: '3.7'
 services:
   auth: 
     container_name: auth
-    image: barbershop-auth:latest
+    image: ramzi611/barbershop-auth:latest
     hostname: auth
     ports:
       - 3001:3001
@@ -12,7 +12,7 @@ services:
       - database
   posts: 
     container_name: posts
-    image: barbershop-posts:latest
+    image: ramzi611/barbershop-posts:latest
     hostname: posts
     ports:
       - 3002:3002
@@ -21,7 +21,7 @@ services:
       - auth
   gateway: 
     container_name: gateway
-    image: barbershop-gateway:latest
+    image: ramzi611/barbershop-gateway:latest
     hostname: gateway
     ports:
       - 3000:3000

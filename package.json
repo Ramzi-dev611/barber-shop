@@ -15,14 +15,17 @@
     "@nestjs/typeorm": "^9.0.1",
     "@types/bcrypt": "^5.0.0",
     "@types/passport-jwt": "^3.0.8",
+    "@willsoto/nestjs-prometheus": "^5.1.0",
     "bcrypt": "^5.1.0",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
     "pg": "^8.8.0",
+    "prom-client": "^14.1.1",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.0.0",
     "tslib": "^2.3.0",
-    "typeorm": "^0.3.11"
+    "typeorm": "^0.3.11",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@nestjs/schematics": "^9.0.0",
