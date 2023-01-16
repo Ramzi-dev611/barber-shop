@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fact-deployment
+  labels:
+    app: fact
+spec:
+  replicas: {{ .Values.deployment.replicas }}
+  selector:
+    matchLabels:
+      app: fact
+  template:
+    metadata:
+      annotations:
+        prometheus.io/port: "8080"
+        prometheus.io/path: "/metrics"
+        prometheus.io/scrape: "true"
+      labels:
+        app: fact
+    spec:
+      containers:
+      - name: fact
+        image: segflow/factservice:{{ .Values.image.tag }}
+        ports:
+        - containerPort: 8080
+        env:
+          - name: HOST_IP
+            valueFrom:
+              fieldRef:
+                fieldPath: status.hostIP
+          - name: OTEL_EXPORTER_OTLP_ENDPOINT # Needed for traces to work.
+            value: "http://$(HOST_IP):4317"
+          - name: OTEL_SERVICE_NAME           # Service name to be used by the tracer
+            value: "fact-service"

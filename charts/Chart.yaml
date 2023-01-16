@@ -1,0 +1,4 @@
+apiVersion: v2
+name: barber-shop-applicaion
+description: Helm chart to install the Barbershop application
+version: 0.1.0

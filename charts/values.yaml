@@ -1,0 +1,9 @@
+gateway:
+  deployment:
+    replicas: 3
+    jwt: qm{[--èrlsdkhjfmqoujhfgpquighkjqrg5678324*/67824*/95sdqkljhg
+    POSTS_MICRO_PORT: 3002
+    POSTS_MICRO_HOST: posts
+    AUTH_MICRO_PORT: 3001
+    AUTH_MICRO_HOST: auth
+
