@@ -17,7 +17,7 @@ spec:
   template:
     metadata:
       annotations:
-        prometheus.io/port: "8080"
+        prometheus.io/port: {{ .Values.gateway.service.port }}
         prometheus.io/path: "/metrics"
         prometheus.io/scrape: "true"
       labels:
@@ -25,19 +25,19 @@ spec:
     spec:
       containers:
       - name: gateway-container
-        image: ramzi611/barbershop-gateway
+        image: ramzi611/barbershop-gateway:latest
         ports:
-        - containerPort: 3000
+        - containerPort: {{ .Values.gateway.service.port }}
         env:
           - name: PRODUCTION
             value: true
           - name: JWT_SECRET
             value: {{ .Values.gateway.deployment.jwt }}
           - name: POST_MICRO_HOST
-            value: {{ .Values.gateway.deployment.POST_MICRO_HOST }}
+            value: {{ .Values.posts.service.name }}
           - name: POST_MICRO_PORT
-            value: {{ .Values.gateway.deployment.POST_MICRO_PORT }}
+            value: {{ .Values.posts.service.port }}
           - name: AUTH_MICRO_HOST
-            value: {{ .Values.gateway.deployment.AUTH_MICRO_HOST }}
+            value: {{ .Values.authentication.service.name }}
           - name: AUTH_MICRO_PORT
-            value: {{ .Values.gateway.deployment.POST_MICRO_HOST }}
+            value: {{ .Values.authentication.service.name }}
