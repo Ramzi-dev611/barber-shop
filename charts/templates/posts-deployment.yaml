@@ -1,34 +1,43 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: fact-deployment
+  name: barbershop-posts
   labels:
-    app: fact
+    app: posts
 spec:
-  replicas: {{ .Values.deployment.replicas }}
+  strategy: 
+    type: shadow
+    shadow:
+      source:
+        deployment: barbershop-posts
+  replicas: {{ .Values.authenticaion.posts.replicas }}
   selector:
     matchLabels:
-      app: fact
+      app: posts
   template:
     metadata:
       annotations:
-        prometheus.io/port: "8080"
+        prometheus.io/port: {{ .Values.authentication.service.port }}
         prometheus.io/path: "/metrics"
         prometheus.io/scrape: "true"
       labels:
-        app: fact
+        app: posts
     spec:
       containers:
-      - name: fact
-        image: segflow/factservice:{{ .Values.image.tag }}
+      - name: posts-container
+        image: ramzi611/barbershop-posts:latest
         ports:
-        - containerPort: 8080
+        - containerPort: {{ .Values.posts.service.port }}
         env:
-          - name: HOST_IP
-            valueFrom:
-              fieldRef:
-                fieldPath: status.hostIP
-          - name: OTEL_EXPORTER_OTLP_ENDPOINT # Needed for traces to work.
-            value: "http://$(HOST_IP):4317"
-          - name: OTEL_SERVICE_NAME           # Service name to be used by the tracer
-            value: "fact-service"
+          - name: PRODUCTION
+            value: true
+          - name: DB_HOST
+            value: {{ .Values.posts.deployment.DB_HOST}}
+          - name: DB_PORT
+            value: {{ .Values.posts.deployment.DB_PORT}}
+          - name: DB_NAME
+            value: {{ .Values.posts.deployment.DB_NAME}}
+          - name: DB_USER
+            value: {{ .Values.posts.deployment.DB_USER}}
+          - name: DB_PASSWD
+            value: {{ .Values.posts.deployment.DB_PASSWD}}

@@ -27,7 +27,7 @@ spec:
       - name: auth-container
         image: ramzi611/barbershop-auth:latest
         ports:
-        - containerPort: {{ .Values.auth.service.port }}
+        - containerPort: {{ .Values.authentication.service.port }}
         env:
           - name: PRODUCTION
             value: true
