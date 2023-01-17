@@ -5,21 +5,12 @@ metadata:
   labels:
     app: posts
 spec:
-  strategy: 
-    type: shadow
-    shadow:
-      source:
-        deployment: barbershop-posts
-  replicas: {{ .Values.authenticaion.posts.replicas }}
+  replicas: {{ .Values.posts.deployment.replicas }}
   selector:
     matchLabels:
       app: posts
   template:
     metadata:
-      annotations:
-        prometheus.io/port: {{ .Values.authentication.service.port }}
-        prometheus.io/path: "/metrics"
-        prometheus.io/scrape: "true"
       labels:
         app: posts
     spec:
@@ -30,11 +21,11 @@ spec:
         - containerPort: {{ .Values.posts.service.port }}
         env:
           - name: PRODUCTION
-            value: true
+            value: "true"
           - name: DB_HOST
             value: {{ .Values.posts.deployment.DB_HOST}}
           - name: DB_PORT
-            value: {{ .Values.posts.deployment.DB_PORT}}
+            value: "{{ .Values.posts.deployment.DB_PORT}}"
           - name: DB_NAME
             value: {{ .Values.posts.deployment.DB_NAME}}
           - name: DB_USER

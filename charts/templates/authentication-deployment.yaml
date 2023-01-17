@@ -5,21 +5,12 @@ metadata:
   labels:
     app: auth
 spec:
-  strategy: 
-    type: shadow
-    shadow:
-      source:
-        deployment: barbershop-authentication
-  replicas: {{ .Values.authenticaion.deployment.replicas }}
+  replicas: {{ .Values.authentication.deployment.replicas }}
   selector:
     matchLabels:
       app: auth
   template:
     metadata:
-      annotations:
-        prometheus.io/port: {{ .Values.authentication.service.port }}
-        prometheus.io/path: "/metrics"
-        prometheus.io/scrape: "true"
       labels:
         app: auth
     spec:
@@ -30,13 +21,13 @@ spec:
         - containerPort: {{ .Values.authentication.service.port }}
         env:
           - name: PRODUCTION
-            value: true
+            value: "true"
           - name: JWT_SECRET
             value: {{ .Values.authentication.deployment.jwt }}
           - name: DB_HOST
             value: {{ .Values.authentication.deployment.DB_HOST}}
           - name: DB_PORT
-            value: {{ .Values.authentication.deployment.DB_PORT}}
+            value: "{{ .Values.authentication.deployment.DB_PORT}}"
           - name: DB_NAME
             value: {{ .Values.authentication.deployment.DB_NAME}}
           - name: DB_USER

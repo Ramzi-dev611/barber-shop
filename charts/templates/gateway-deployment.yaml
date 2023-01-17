@@ -5,11 +5,6 @@ metadata:
   labels:
     app: gateway
 spec:
-  strategy: 
-    type: shadow
-    shadow:
-      source:
-        deployment: barbershop-gateway
   replicas: {{ .Values.gateway.deployment.replicas }}
   selector:
     matchLabels:
@@ -17,7 +12,7 @@ spec:
   template:
     metadata:
       annotations:
-        prometheus.io/port: {{ .Values.gateway.service.port }}
+        prometheus.io/port: "{{ .Values.gateway.service.port }}"
         prometheus.io/path: "/metrics"
         prometheus.io/scrape: "true"
       labels:
@@ -30,14 +25,14 @@ spec:
         - containerPort: {{ .Values.gateway.service.port }}
         env:
           - name: PRODUCTION
-            value: true
+            value: "true"
           - name: JWT_SECRET
             value: {{ .Values.gateway.deployment.jwt }}
           - name: POST_MICRO_HOST
             value: {{ .Values.posts.service.name }}
           - name: POST_MICRO_PORT
-            value: {{ .Values.posts.service.port }}
+            value: "{{ .Values.posts.service.port }}"
           - name: AUTH_MICRO_HOST
             value: {{ .Values.authentication.service.name }}
           - name: AUTH_MICRO_PORT
-            value: {{ .Values.authentication.service.name }}
+            value: "{{ .Values.authentication.service.port }}"

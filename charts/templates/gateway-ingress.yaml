@@ -13,4 +13,4 @@ spec:
           service:
             name: {{ .Values.gateway.service.name }}
             port:
-              number: 9090
+              number: 3000
