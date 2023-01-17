@@ -28,9 +28,9 @@ spec:
             value: "true"
           - name: JWT_SECRET
             value: {{ .Values.gateway.deployment.jwt }}
-          - name: POST_MICRO_HOST
+          - name: POSTS_MICRO_HOST
             value: {{ .Values.posts.service.name }}
-          - name: POST_MICRO_PORT
+          - name: POSTS_MICRO_PORT
             value: "{{ .Values.posts.service.port }}"
           - name: AUTH_MICRO_HOST
             value: {{ .Values.authentication.service.name }}

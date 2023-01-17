@@ -7,10 +7,10 @@ spec:
   rules:
   - http:
       paths:
-      - path: /
-        pathType: Prefix
-        backend:
+      - backend:
           service:
             name: {{ .Values.gateway.service.name }}
             port:
-              number: 3000
+              number: {{ .Values.gateway.service.port }}
+        path: /
+        pathType: Prefix

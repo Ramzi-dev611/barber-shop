@@ -1,0 +1,5 @@
+{
+    "yaml.schemas": {
+        "https://json.schemastore.org/chart.json": "file:///home/ramzi/Documents/barber-shop/charts/application/Chart.yaml"
+    }
+}
