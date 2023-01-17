@@ -1,4 +1,0 @@
-apiVersion: v2
-name: barber-shop-database
-description: Helm chart to configure a minimalist database for the barbershop application (needing a persistance volume and persistance volume claim to be defined)
-version: 0.1.0
