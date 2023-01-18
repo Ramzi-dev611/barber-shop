@@ -40,7 +40,7 @@ docker compose up
 
 ## Notes
 
-* The helm charts of this application are provided in this ![repository](https://github.com/Ramzi-dev611/Barbershop-infra). note that template files for the database service where provided there for testing (using kind for example)
+* The helm charts of this application are provided in this [repository](https://github.com/Ramzi-dev611/Barbershop-infra). note that template files for the database service where provided there for testing (using kind for example)
 
 * In the infrastructure provisioning there were two issues faced:
     * The datadog api key setup didn't work
